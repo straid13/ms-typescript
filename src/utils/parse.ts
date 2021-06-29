@@ -14,9 +14,9 @@ import {
   YEAR_TYPES,
 } from './constants'
 
-export const parse = (str: string): number | undefined => {
+export const parse = (str: string): number => {
   if (str.length > 100) {
-    return
+    return 0
   }
 
   const match =
@@ -25,7 +25,7 @@ export const parse = (str: string): number | undefined => {
     )
 
   if (!match) {
-    return
+    return 0
   }
 
   const n = parseFloat(match[1])
@@ -59,5 +59,5 @@ export const parse = (str: string): number | undefined => {
     return n
   }
 
-  return undefined
+  return 0
 }

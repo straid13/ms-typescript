@@ -10,7 +10,7 @@ const DEFAULT_OPTS = {
   long: false,
 }
 
-type MSReturnType = number | string | undefined
+type MSReturnType = number | string
 
 const ms = (val: string | number, opts: Options = DEFAULT_OPTS): MSReturnType => {
   if (typeof val === 'string' && val.length > 0) {
