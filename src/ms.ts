@@ -2,7 +2,7 @@ import { fmtLong } from './utils/fmtLong'
 import { fmtShort } from './utils/fmtShort'
 import { parse } from './utils/parse'
 
-type Options = {
+interface Options {
   long: boolean
 }
 
@@ -10,18 +10,24 @@ const DEFAULT_OPTS = {
   long: false,
 }
 
-type MSReturnType = number | string
+const toMs = (val: string | number): number => {
+  const preparedVal = typeof val === 'string' ? val : `${val}`
 
-const ms = (val: string | number, opts: Options = DEFAULT_OPTS): MSReturnType => {
-  if (typeof val === 'string' && val.length > 0) {
-    return parse(val)
+  if (preparedVal.length > 0) {
+    return parse(preparedVal)
   }
 
-  if (typeof val === 'number' && isFinite(val)) {
-    return opts.long ? fmtLong(val) : fmtShort(val)
-  }
-
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+  throw new Error('val is not a non-empty string. val=' + JSON.stringify(val))
 }
 
-export { ms }
+const fromMs = (val: number | string, opts: Options = DEFAULT_OPTS): string => {
+  const preparedVal = typeof val === 'number' ? val : parseInt(val)
+
+  if (isFinite(preparedVal)) {
+    return opts.long ? fmtLong(preparedVal) : fmtShort(preparedVal)
+  }
+
+  throw new Error('val is not a a valid number. val=' + JSON.stringify(preparedVal))
+}
+
+export { toMs, fromMs }
